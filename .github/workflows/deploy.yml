@@ -1,0 +1,27 @@
+name: Deploy VAJIRA-MD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Decode package.json before install
+        run: node session/decode.js
+
+      - name: Install dependencies after decode
+        run: npm install
+
+      - name: Start the bot
+        run: node session/start.js
